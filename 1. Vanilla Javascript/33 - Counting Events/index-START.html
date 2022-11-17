@@ -1,48 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Counting Events with the Count API</title>
-  <link rel="stylesheet" href="./styles.css" />
-</head>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Counting Events with the Count API</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <section class="container">
+      <section id="counter">0</section>
+      <button id="count">Press Me!</button>
+    </section>
 
-<body>
-  <section class="container">
-    <section id="counter">0</section>
-    <button id="count">Press Me!</button>
-  </section>
+    <script>
+      // DOCS: https://countapi.xyz/
+      // 1. Count the number of times the button is clicked using the function below
+      const counter = document.querySelector("#counter");
+      const count = document.querySelector("#count");
 
-  <script>
-    // DOCS: https://countapi.xyz/
-    // 1. Count the number of times the button is clicked using the function below
-    const button = document.getElementById('count');
-    const counter = document.getElementById('counter');
-    button.addEventListener('click', clicked);
-   // window.addEventListener('load', initialclicked);
+      count.addEventListener("click", () => clickedFetch());
 
-    // 3. Promisify the following function
-    function clicked() {
-      return fetch("https://api.countapi.xyz/hit/simontemmerman.com/awesomeclick")
-        .then((data) => { return data.json() })
-        .then((data) => { counter.innerText =data.value })
-    };
-    // 3. Rewrite the function to use the fetch API
+      // 3. Promisify the following function
+      function clicked() {
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "https://api.countapi.xyz/hit/simontemmerman.com/awesomeclick");
+        xhr.responseType = "json";
+        xhr.onload = function () {
+          //2. Set the count in the counter section || xhr.response
+          counter.innerHTML = xhr.response.value;
+        };
+        xhr.send();
+      }
 
+      function clickedPromisify() {
+        return new Promise((resolve, reject) => {
+          var xhr = new XMLHttpRequest();
+          xhr.open("GET", "https://api.countapi.xyz/hit/simontemmerman.com/awesomeclick");
+          xhr.responseType = "json";
+          xhr.onload = function () {
+            //2. Set the count in the counter section || xhr.response
+            resolve(xhr.response.value);
+          };
+          xhr.onerror = reject;
+          xhr.send();
+        });
+      }
+      // 3. Rewrite the function to use the fetch API
+      function clickedFetch() {
+        return fetch("https://api.countapi.xyz/hit/simontemmerman.com/awesomeclick")
+          .then((res) => res.json())
+          .then((res) => {
+            counter.innerHTML = res.value;
+          });
+      }
 
-    // 4. When the page loads, get the number of clicks already registered for your page
-    // https://api.countapi.xyz/info/simontemmerman.com/awesomeclick
-    // 5. Promisify the initialClicks function    
-    function initialclicked() {
-      return fetch("https://api.countapi.xyz/info/simontemmerman.com/awesomeclick")
-        .then((data) => { return data.json() })
-        .then((data) => { counter.innerText =data.value })
-    };
-    initialclicked() ;
+      // 4. When the page loads, get the number of clicks already registered for your page
+      // https://api.countapi.xyz/info/simontemmerman.com/awesomeclick
+      function initialClicks() {
+        return fetch("https://api.countapi.xyz/info/simontemmerman.com/awesomeclick")
+          .then((res) => res.json())
+          .then((res) => {
+            counter.innerHTML = res.value;
+          });
+      }
 
-  </script>
-</body>
+      initialClicks();
 
+      // 6. Implement the same thing with local storage
+      function localClicked() {
+        fetch("https://api.countapi.xyz/hit/simontemmerman.com/awesomeclick")
+          .then((res) => res.json())
+          .then((res) => {
+            localStorage.getItem("count", res.value);
+            counter.innerHTML = res.value;
+          });
+      }
+    </script>
+  </body>
 </html>
+>>>>>>> c81fca3a789aa1fc7b56e8fb785e50ded9b865db
