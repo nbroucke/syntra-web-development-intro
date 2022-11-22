@@ -17,26 +17,23 @@ async function init() {
   const word = wordRes.toUpperCase();
   const wordParts = word.split("");
   console.log(wordParts);
-  loading = false;
   setLoading(loading);
 
   // user adds a letter to the current guess
   function addLetter(letter) {
-    console.log('adding letter ' + letter)
+    console.log("adding letter " + letter);
     if (guess.length < ANSWER_LENGTH) {
       guess += letter;
     }
     letters[row * ANSWER_LENGTH + guess.length - 1].innerText = letter;
   }
 
-
   // user tries to enter a guess
   async function commit() {
-
     let ok = 0;
 
     if (guess.length !== ANSWER_LENGTH) {
-      return
+      return;
     }
 
     loading = true;
@@ -49,14 +46,13 @@ async function init() {
     loading = false;
     setLoading(loading);
 
-
     // not valid, mark the word as invalid and return
     if (!validWord) {
       markInvalidWord();
       return;
     }
 
-    const wordMap = makeMap(wordParts)
+    const wordMap = makeMap(wordParts);
     const guessParts = guess.split("");
 
     //exacte matches
@@ -64,7 +60,7 @@ async function init() {
       if (guessParts[i] == wordParts[i]) {
         letters[row * ANSWER_LENGTH + i].classList.add("correct");
         wordMap[guessParts[i]]--;
-        ok++
+        ok++;
       }
     }
 
@@ -74,30 +70,24 @@ async function init() {
         if (wordMap[guessParts[i]] && wordMap[guessParts[i]] > 0) {
           letters[row * ANSWER_LENGTH + i].classList.add("close");
           wordMap[guessParts[i]]--;
-        }
-        else {
+        } else {
           letters[row * ANSWER_LENGTH + i].classList.add("wrong");
         }
       }
     }
 
-
-
-  
-
-
-    if (ok==ANSWER_LENGTH) {
+    if (ok == ANSWER_LENGTH) {
       finished = true;
-     
-      document.querySelector('.brand').classList.add("winner")
-      document.getElementById("result").innerText = 'Congratulations, you win'
-    }
 
-    else {
+      document.querySelector(".brand").classList.add("winner");
+      document.getElementById("result").innerText = "Congratulations, you win";
+    } else {
       row++;
       guess = "";
       if (row == ROUNDS) {
-        document.getElementById("result").innerText = `Sorry, you lost, the word was : ${word}`
+        document.getElementById(
+          "result"
+        ).innerText = `Sorry, you lost, the word was : ${word}`;
       }
     }
   }
@@ -116,7 +106,10 @@ async function init() {
       letters[row * ANSWER_LENGTH + i].classList.remove("invalid");
 
       // long enough for the browser to repaint without the "invalid class" so we can then add it again
-      setTimeout(() => letters[row * ANSWER_LENGTH + i].classList.add("invalid"), 10);
+      setTimeout(
+        () => letters[row * ANSWER_LENGTH + i].classList.add("invalid"),
+        10
+      );
     }
   }
 
@@ -124,7 +117,6 @@ async function init() {
   // we listen on keydown so we can catch Enter and Backspace
   document.addEventListener("keydown", function handleKeyPress(event) {
     if (!finished && !loading) {
-
       const key = event.key;
 
       if (key === "Enter") {
@@ -137,11 +129,9 @@ async function init() {
         // do nothing
       }
     }
-
   });
 
   console.log("it's done");
-
 
   // a little function to check to see if a character is alphabet letter
   // this uses regex (the /[a-zA-Z]/ part) but don't worry about it
@@ -162,17 +152,17 @@ async function init() {
   // of just wrong or correct
   function makeMap(array) {
     const obj = {};
-    array.forEach(element => {
-      if (obj[element]) { obj[element]++ }
-      else {
-        obj[element] = 1
+    array.forEach((element) => {
+      if (obj[element]) {
+        obj[element]++;
+      } else {
+        obj[element] = 1;
       }
-    }
-    );
+    });
     return obj;
   }
 }
 
-console.log('before init');
+console.log("before init");
 
 init();
