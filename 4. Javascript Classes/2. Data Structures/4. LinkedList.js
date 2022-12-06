@@ -25,6 +25,16 @@
 
 class LinkedList {
   // code goes here
+
+  length(){
+
+  }
+  push(){}
+  pop(){}
+  get(){}
+  delete(){}
+
+  
 }
 
 class Node {

@@ -42,9 +42,6 @@ const myQueue = new Queue();
 
 myQueue.enqueue("a").enqueue("b").enqueue("c");
 myQueue.print();
-//myStack.push("b");
-//myStack.push("c");
-//myStack.print();
 console.log(myQueue.dequeue());
 myQueue.print();
 console.log(myQueue.peek());

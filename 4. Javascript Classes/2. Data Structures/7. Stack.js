@@ -24,8 +24,8 @@ class Stack {
    * @return {*} the last and newest value in the stack
    */
   pop() {
-    this.#storage.pop();
-    return this;
+    return this.#storage.pop();
+
   }
   /*
    * Returns the value at the end of the stack without removing it
@@ -40,10 +40,7 @@ const myStack = new Stack();
 
 myStack.push("a").push("b").push("c");
 myStack.print();
-//myStack.push("b");
-//myStack.push("c");
-//myStack.print();
-myStack.pop().pop();
+myStack.pop();
 myStack.print();
 myStack.peek();
 myStack.print();
