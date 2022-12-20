@@ -24,6 +24,36 @@ class LibrarySection {
       return book.borrowed && book.borrowed >= book.returned;
     });
   }
+
+  collectBook(bookTitle, author, borrow, quantity) {
+    const titleInRegex = new RegExp(bookTitle, "gi");
+    const authorInRegex = new RegExp(author, "gi");
+    const bookToUse = this.availableBooks.filter((book) => {
+      return titleInRegex.test(book.title) && authorInRegex.test(book.author);
+    })[0];
+
+    if (bookToUse && quantity <= bookToUse.inStock) {
+      bookToUse.inStock -= quantity;
+      borrow ? (bookToUse.borrowed += 1) : (bookToUse.reading += quantity);
+      return bookToUse.bookPlacement;
+    } else {
+      return "Out of stock";
+    }
+  }
+
+  returnBooks(ISBN, quantity) {
+    const bookToReturn = this.allBookedBooks.filter((bookedBook) => {
+      return bookedBook.ISBN === ISBN;
+    })[0];
+
+    if (bookToReturn && quantity <= bookToReturn.reading) {
+      bookToReturn.inStock += quantity;
+      bookToReturn.reading -= quantity;
+      return bookToReturn.bookPlacement;
+    } else {
+      return "Not collected in the quantity provided";
+    }
+  }
 }
 
 class FantasySection extends LibrarySection {
@@ -78,30 +108,30 @@ class App {
       books: fantasyBooks.all,
     };
 
+    // when we click one of the elements, the state should update.
+    // Excercise: it would be best to refactor this in its own SideBar Class
     document.querySelectorAll(".nav-selection").forEach((nav) => {
+      console.log(nav);
       nav.addEventListener("click", (e) => {
         const type = e.target.parentNode.dataset.bookType;
         this.state.books = fantasyBooks[type];
       });
     });
 
+    // Can you create a searchbar component?
+
     this.state = new Proxy(state, {
       set: this.update,
     });
 
-<<<<<<< HEAD
-  #initNavSelection() {
-    const navItems = document.querySelectorAll(".nav-selection");
-    navItems.forEach((i) =>
-      i.addEventListener("click", this.#handlers.navSelection)
-    );
-=======
     this.bookList = new BookList(this.state);
->>>>>>> f0026bebb4fdfd9e8061944ffce1e3727b34361b
   }
 
-  update = (target, property, value) => {
+  // make sure update is an arrow function, so the this points to the class and not the function
+  update = (prevState, property, value) => {
+    // first update the state of the object
     target[property] = value;
+    // based on what changes in the state, we can rerender different elements on the page
     if (property === "books") {
       this.bookList.render();
     }
@@ -111,6 +141,7 @@ class App {
 
 class BookList {
   constructor(state) {
+    // keep a pointer to the state so when we render, we have the latest changes
     this.state = state;
     this.booksContainer = document.querySelector(".books");
     for (let book of state.books) {
@@ -119,21 +150,14 @@ class BookList {
     }
   }
 
-<<<<<<< HEAD
-    collectBooks.forEach((button) =>
-      button.addEventListener("click", console.log)
-    );
-    returnBooks.forEach((button) =>
-      button.addEventListener("click", console.log)
-    );
-=======
   render() {
+    // empty the list
     this.booksContainer.innerHTML = "";
+    // fill the list with the books
     for (let book of this.state.books) {
       const bookInstance = new Book(book);
       this.booksContainer.appendChild(bookInstance.el);
     }
->>>>>>> f0026bebb4fdfd9e8061944ffce1e3727b34361b
   }
 }
 
@@ -155,82 +179,20 @@ class Book {
 
   #bookCard(book) {
     return `
-<<<<<<< HEAD
-    <article class="book">
-      <img src="${book.cover}" />
-      <section>
-        <h3>${book.title}</h3>
-        <h5>${book.author}</h5>
-        <p>${book.desc}</p>
-        <section>
-          <p>In Stock: <b>${book.inStock}</b></p>
-          <button class="collect" data-id="${book.ISBN}">Collect</button>
-          <button class="return" data-id="${book.ISBN}">Return</button>
-        </section>
-      </section>
-    </article>
-    `;
-  }
-}
-
-class App {
-  #name;
-  #input;
-  #ui;
-  #fantasySection;
-  lookingAtBooks = "all";
-
-  constructor() {
-    this.name = "Book App";
-    this.#ui = new UI(this);
-    this.#fantasySection = new FantasySection(this);
-    this.#input = new InputHandler({
-      search: (e) => {
-        const searchTerm = e.target.querySelector("[name=search]").value;
-        this.#ui.clear(".books");
-        const books = this.#fantasySection.search(
-          this.lookingAtBooks,
-          searchTerm
-        );
-        books.forEach((book) =>
-          this.#ui.append(".books", this.#ui.bookCard(book))
-        );
-        this.#input.initBookHandlers();
-      },
-      navSelection: (e) => {
-        const type = e.target.parentNode.dataset.bookType;
-        console.log("type : ", type);
-        this.lookingAtBooks = type;
-        this.#ui.clear(".books");
-        const books = this.#fantasySection[this.lookingAtBooks];
-        books.forEach((book) =>
-          this.#ui.append(".books", this.#ui.bookCard(book))
-        );
-        this.#input.initBookHandlers();
-      },
-    });
-  }
-
-  bootstrap() {
-    const books = this.#fantasySection.all;
-    books.forEach((book) => this.#ui.append(".books", this.#ui.bookCard(book)));
-    this.#input.initBookHandlers();
-=======
-        <article class="book">
-          <img src="${book.cover}" />
-          <section>
-            <h3>${book.title}</h3>
-            <h5>${book.author}</h5>
-            <p>${book.desc}</p>
+          <article class="book">
+            <img src="${book.cover}" />
             <section>
-              <p>In Stock: <b>${book.inStock}</b></p>
-              <button class="collect" data-id="${book.ISBN}">Collect</button>
-              <button class="return" data-id="${book.ISBN}">Return</button>
+              <h3>${book.title}</h3>
+              <h5>${book.author}</h5>
+              <p>${book.desc}</p>
+              <section>
+                <p>In Stock: <b>${book.inStock}</b></p>
+                <button class="collect" data-id="${book.ISBN}">Collect</button>
+                <button class="return" data-id="${book.ISBN}">Return</button>
+              </section>
             </section>
-          </section>
-        </article>
-        `;
->>>>>>> f0026bebb4fdfd9e8061944ffce1e3727b34361b
+          </article>
+          `;
   }
 }
 
