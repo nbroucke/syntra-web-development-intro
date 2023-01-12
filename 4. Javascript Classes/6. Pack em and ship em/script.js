@@ -1,0 +1,32 @@
+console.log("hier");
+
+window.ls.clear();
+window.ls.set("bool", true);
+window.ls.set("num", 1);
+window.ls.set("str", "1");
+console.log("get it", window.ls.getAll());
+const x = window.localStorage.getItem("bool");
+console.log(typeof x);
+const y = window.localStorage.getItem("num");
+console.log(typeof y);
+const z = window.localStorage.getItem("str");
+console.log(typeof z);
+window.ls.set("key1", "value1");
+window.ls.set("key2", "value2");
+window.ls.set("key3", "value3");
+window.ls.set("key4", "value4");
+window.ls.set("key5", "value5");
+window.ls.set("array1", [1, 2, 3, false, "x"]);
+window.ls.set("obj1", { key: [1, 2, 3, false, "x"] });
+console.log(window.ls.getAll());
+console.log("key3", window.ls.get("key3"));
+console.log("key10", window.ls.get("key10"));
+console.log("array1", window.ls.get("array1"));
+console.log("obj1", window.ls.get("obj1"));
+console.log("get test ", window.ls.get({ key1: "1", key11: "11" }));
+window.ls.remove("key1");
+console.log(window.ls.getAll());
+window.ls.clear();
+console.log(window.ls.getAll());
+
+//window.todoService = new LocalStorage();

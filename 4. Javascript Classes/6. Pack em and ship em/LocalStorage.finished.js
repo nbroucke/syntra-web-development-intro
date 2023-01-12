@@ -12,7 +12,8 @@
 
 class LocalStorage {
   constructor() {
-    if (!window.localStorage) throw new Error("Local storage is not supported in this browser.");
+    if (!window.localStorage)
+      throw new Error("Local storage is not supported in this browser.");
     this.storage = window.localStorage;
   }
 

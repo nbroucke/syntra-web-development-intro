@@ -59,7 +59,7 @@
         <input type="submit" value="+ Add Item" id="knop" required />
       </form>
     </div>
-
+    <script src="./LocalStorage.js"></script>
     <script>
       const addItems = document.querySelector(".add-items");
       const itemsList = document.querySelector(".plates");
@@ -75,16 +75,22 @@
         if (waarde != "") {
           inputveld.value = "";
 
-          let array;
+          // let array;
 
-          if (localStorage.getItem("tapas") !== null) {
-            array = JSON.parse(localStorage.getItem("tapas"));
-            array.push(waarde);
-          } else {
-            array = [waarde];
-          }
+          // if (localStorage.getItem("tapas") !== null) {
+          //   array = JSON.parse(localStorage.getItem("tapas"));
+          //   array.push(waarde);
+          // } else {
+          //   array = [waarde];
+          // }
 
-          localStorage.setItem("tapas", JSON.stringify(array));
+          //window.ls.set("tapas", [waarde]);
+
+          let array = window.ls.get("tapas");
+          array.push(waarde);
+          window.ls.set("tapas", array);
+
+          //  localStorage.setItem("tapas", JSON.stringify(array));
         }
         displayitems();
       });
@@ -92,19 +98,22 @@
       JSON.parse(window.localStorage.getItem("user"));
 
       function displayitems() {
-        let array;
+        //let array;
 
-        if (localStorage.getItem("tapas") !== null) {
-          array = JSON.parse(localStorage.getItem("tapas"));
-        } else {
-          array = [""];
-        }
+        // if (localStorage.getItem("tapas") !== null) {
+        //   array = JSON.parse(localStorage.getItem("tapas"));
+        // } else {
+        //   array = [""];
+        // }
+        let array = window.ls.get("tapas");
+        console.log("array", array);
+        console.log(typeof array);
 
         itemsList.innerHTML = array
           .map(
             (el, i) =>
               `<li><input type="checkbox" id="tapas${i}" name="tapas${i}" value=${el}>
-<label for="tapas${i}> ${el}</label></li>`
+      <label for="tapas${i}> ${el}</label></li>`
           )
           .join("");
       }
