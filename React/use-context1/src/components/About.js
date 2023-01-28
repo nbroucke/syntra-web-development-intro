@@ -1,16 +1,10 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
-import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button";
-import Col from "react-bootstrap/Col";
-import Row from "react-bootstrap/Row";
-import Offcanvas from "./Offcanvas";
+import H1 from "./H1";
 
-export default function About({ products }) {
+export default function About() {
   return (
     <div>
-      <Offcanvas></Offcanvas>
-      <h1>About</h1>
+      <H1 tekst="About" />
     </div>
   );
 }

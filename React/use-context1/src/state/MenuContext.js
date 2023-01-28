@@ -5,13 +5,10 @@ const MenuContext = React.createContext();
 export default MenuContext;
 
 export function MenuProvider({ children }) {
-  const [status, setStatus] = useState("open");
+  const [status, setStatus] = useState(false);
   const toggleStatus = () => {
-    if (status === "open") {
-      setStatus("closed");
-    } else {
-      setStatus("open");
-    }
+    console.log("setting state to ", !status);
+    setStatus(!status);
   };
   return (
     <MenuContext.Provider value={{ status, toggleStatus }}>

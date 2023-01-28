@@ -3,7 +3,7 @@ import { useState } from "react";
 const themes = {
   light: {
     foreground: "#000000",
-    background: "#eeeeee",
+    background: "#ffffff",
     color: "light",
   },
   dark: {
@@ -24,6 +24,7 @@ export function ThemeProvider({ children }) {
     } else {
       setTheme(themes.light);
     }
+    console.log("theme is ", theme.background);
   };
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>

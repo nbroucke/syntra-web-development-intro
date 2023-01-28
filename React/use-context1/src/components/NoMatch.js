@@ -1,15 +1,14 @@
 import React from "react";
+import H1 from "./H1";
 import { Link } from "react-router-dom";
 
-function NoMatch() {
+export default function NoMatch() {
   return (
     <div>
-      <h2>Nothing to see here!</h2>
+      <H1 tekst="NoMatch" />
       <p>
         <Link to="/">Go to the home page</Link>
       </p>
     </div>
   );
 }
-
-export default NoMatch;

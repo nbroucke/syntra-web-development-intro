@@ -1,15 +1,10 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { useParams } from "react-router-dom";
-import Offcanvas from "./Offcanvas";
+import H1 from "./H1";
 
-function Contact({ products }) {
+export default function Contact() {
   return (
     <div>
-      <Offcanvas></Offcanvas>
-      <h1>Contacts</h1>
+      <H1 tekst="Contact" />
     </div>
   );
 }
-
-export default Contact;

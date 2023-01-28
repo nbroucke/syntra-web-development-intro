@@ -7,6 +7,7 @@ import About from "./components/About";
 import Contact from "./components/Contact";
 import NoMatch from "./components/NoMatch";
 import { ThemeProvider } from "./state/ThemeContext";
+import React from "react";
 
 function App() {
   return (
