@@ -7,7 +7,6 @@ export default MenuContext;
 export function MenuProvider({ children }) {
   const [status, setStatus] = useState(false);
   const toggleStatus = () => {
-    console.log("setting state to ", !status);
     setStatus(!status);
   };
   return (
