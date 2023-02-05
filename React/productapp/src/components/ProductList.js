@@ -28,8 +28,6 @@ function ProductList() {
   const handleSubmit = (event) => {
     const form = event.currentTarget;
 
-    const form = event.currentTarget;
-
     alert("hallo");
     setShow(false);
   };
