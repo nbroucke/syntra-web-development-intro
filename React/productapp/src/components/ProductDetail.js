@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-
+import Image from "react-bootstrap/Image";
 import Form from "react-bootstrap/Form";
 
 function ProductDetail() {
@@ -22,12 +22,14 @@ function ProductDetail() {
   const [name, setName] = useState(product.name);
   const [price, setPrice] = useState(product.price);
   const [description, setDescription] = useState(product.description);
+  const [image, setImage] = useState(product.image);
 
   const handleClose = () => navigate(`/`);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    updateProduct(id, name, price, description);
+    console.log("image is ", image);
+    updateProduct(id, name, price, description, image);
     navigate(`/`);
   };
 
@@ -35,7 +37,7 @@ function ProductDetail() {
     <>
       <h1>Product Detail </h1>
       <Form>
-        <Form.Group as={Row} className="mb-3" controlId="formBasicEmail">
+        <Form.Group as={Row} className="mb-3" controlId="formBasicName">
           <Form.Label column sm={2}>
             name
           </Form.Label>
@@ -49,7 +51,7 @@ function ProductDetail() {
           </Col>
         </Form.Group>
 
-        <Form.Group as={Row} className="mb-3" controlId="formBasicPassword">
+        <Form.Group as={Row} className="mb-3" controlId="formBasicPrice">
           <Form.Label column sm={2}>
             Price
           </Form.Label>
@@ -75,6 +77,20 @@ function ProductDetail() {
             />
           </Col>
         </Form.Group>
+
+        <Form.Group as={Row} className="mb-3" controlId="formFile">
+          <Form.Label column sm={2}>
+            image
+          </Form.Label>
+          <Col sm={10}>
+            <Form.Control
+              type="file"
+              onChange={(event) => setImage(event.target.files[0])}
+            />
+            <img src={image} />
+          </Col>
+        </Form.Group>
+
         <Button variant="secondary" onClick={handleClose}>
           Close
         </Button>

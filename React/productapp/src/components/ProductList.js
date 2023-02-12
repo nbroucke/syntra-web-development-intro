@@ -89,6 +89,7 @@ function ProductList() {
               name={p.name}
               price={p.price}
               description={p.description}
+              image={p.image}
             ></ProductCard>
           </Col>
         ))}
