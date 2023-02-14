@@ -22,7 +22,7 @@ function ProductDetail() {
   const [name, setName] = useState(product.name);
   const [price, setPrice] = useState(product.price);
   const [description, setDescription] = useState(product.description);
-  const [image, setImage] = useState(product.image);
+  const [image, setImage] = useState(product.image ? product.image : "");
 
   const handleClose = () => navigate(`/`);
 
@@ -83,11 +83,9 @@ function ProductDetail() {
             image
           </Form.Label>
           <Col sm={10}>
-            <Form.Control
-              type="file"
-              onChange={(event) => setImage(event.target.files[0])}
-            />
-            <img src={image} />
+            <div style={{ display: "flex" }}>
+              <img style={{ textAlign: "start" }} src={image} />
+            </div>
           </Col>
         </Form.Group>
 

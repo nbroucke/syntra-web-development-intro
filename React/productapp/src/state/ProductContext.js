@@ -27,8 +27,9 @@ export function ProductProvider({ children }) {
   };
 
   const updateProduct = (id, name, price, description, image) => {
+    console.log("image to update ", image);
     const rest = products.filter((el) => el.id != id);
-    const newArray = [...rest, { id, name, price, description }];
+    const newArray = [...rest, { id, name, price, description, image }];
     db.upd(id, name, price, description, image);
     setProducts(
       newArray.sort((x, y) => {
